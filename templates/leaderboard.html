@@ -1,12 +1,29 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+
+<!-- Generation Selection Form -->
+<form method="get" action="{{ url_for('leaderboard') }}">
+    <label for="generation-select">Select Generation:</label>
+    <select name="generation" id="generation-select" onchange="this.form.submit()">
+        <option value="">All Generations</option>
+        {% for gen in available_generations %}
+            <option value="{{ gen }}" {% if gen == selected_generation %}selected{% endif %}>Generation {{ gen }}</option>
+        {% endfor %}
+    </select>
+
+    <!-- Include the search query if present -->
+    {% if search_query %}
+        <input type="hidden" name="search" value="{{ search_query }}">
+    {% endif %}
+</form>
+
 <h2>Pokémon Leaderboard</h2>
 <p>Total Votes Cast: {{ "{:,}".format(total_votes) }}</p>
 <ol start="{{ (page - 1) * per_page + 1 }}">
     {% for pokemon in pokemon_list %}
     <li>
-        <img src="{{ pokemon.image_url }}" alt="{{ pokemon.name }}" width="50">
+        <img src="{{ url_for('static', filename='sprites/' + pokemon.sprite_filename) }}" alt="{{ pokemon.name }}" class="leaderboard-sprite">
         {{ pokemon.name }} - Rating: {{ "%.2f"|format(pokemon.elo_rating) }}
     </li>
     {% endfor %}
