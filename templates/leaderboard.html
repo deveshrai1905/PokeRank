@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h2>Pokémon Leaderboard</h2>
+<ol>
+    {% for pokemon in pokemon_list %}
+    <li>
+        <img src="{{ pokemon.image_url }}" alt="{{ pokemon.name }}" width="50">
+        {{ pokemon.name }} - Rating: {{ "%.2f"|format(pokemon.elo_rating) }}
+    </li>
+    {% endfor %}
+</ol>
+{% endblock %}
