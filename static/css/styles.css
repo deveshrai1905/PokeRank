@@ -106,3 +106,26 @@ h1 {
     height: auto;      /* Keep the aspect ratio of the image */
     background: none;
 }
+
+/* Leaderboard List Styling */
+ol {
+    list-style-position: inside;  /* Moves the numbers inside the content box */
+    padding-left: 0;              /* Removes default left padding */
+    margin-left: 0;               /* Removes default left margin */
+}
+
+ol li::marker {
+    font-weight: normal;
+    margin-right: 5px;            /* Adjusts spacing between number and content */
+}
+
+ol li img {
+    margin-right: 10px;           /* Adjusts spacing between image and text */
+}
+
+.citations {
+    position: fixed; /* Position element relative to the viewport */
+    left: 0;         /* Align to the left side of the viewport */
+    bottom: 0;       /* Align to the bottom of the viewport */
+    margin: 20px;    /* Add some margin for aesthetics */
+}

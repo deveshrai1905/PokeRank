@@ -76,13 +76,16 @@ def leaderboard():
         .all()
     )
 
+    total_votes = Match.query.count()
+
     # Pass pagination info to the template
     return render_template(
         'leaderboard.html',
         pokemon_list=pokemon_list,
         page=page,
         total_pages=total_pages,
-        per_page=per_page
+        per_page=per_page,
+        total_votes=total_votes
     )
 
 if __name__ == '__main__':
