@@ -11,7 +11,7 @@ header {
 nav a {
     margin: 0 15px;
     text-decoration: none;
-    color: #2a75bb;
+    color: #0075BE;
 }
 
 .pokemon-choice {
@@ -50,10 +50,59 @@ h1 {
     font-size: clamp(24px, 5vw, 48px);
 }
 
-@supports (-webkit-text-stroke: 3px black) {
+@supports (-webkit-text-stroke: 3px #0075BE) {
     h1 {
         -webkit-text-fill-color: #ffcb05; 
-        -webkit-text-stroke: 3px black; 
+        -webkit-text-stroke: 3px #0075BE; 
         font-size: clamp(24px, 5vw, 48px);
     }
+}
+
+.pagination {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.pagination a, .pagination span {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 8px 12px;
+    color: #2a75bb;
+    text-decoration: none;
+    border: 1px solid #2a75bb;
+    border-radius: 4px;
+}
+
+.pagination a:hover {
+    background-color: #2a75bb;
+    color: white;
+}
+
+.pagination span.current {
+    background-color: #2a75bb;
+    color: white;
+    font-weight: bold;
+}
+
+.pagination span {
+    /* For the ellipsis */
+    border: none;
+}
+
+.pokeball {
+    position: fixed;   /* Fixed position relative to the viewport */
+    right: 10px;       /* 10 pixels from the right edge of the viewport */
+    top: 10px;         /* 10 pixels from the top of the viewport */
+    width: 50px;       /* Set the width of the image */
+    height: auto;      /* Keep the aspect ratio of the image */
+    background: none;
+}
+
+.pokeball2 {
+    position: fixed;   /* Fixed position relative to the viewport */
+    left: 10px;       /* 10 pixels from the right edge of the viewport */
+    top: 10px;         /* 10 pixels from the top of the viewport */
+    width: 50px;       /* Set the width of the image */
+    height: auto;      /* Keep the aspect ratio of the image */
+    background: none;
 }
