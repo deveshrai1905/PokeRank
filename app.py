@@ -51,8 +51,39 @@ def choose():
 
 @app.route('/leaderboard')
 def leaderboard():
-    pokemon_list = Pokemon.query.order_by(Pokemon.elo_rating.desc()).all()
-    return render_template('leaderboard.html', pokemon_list=pokemon_list)
+    # Get the page number from the query parameters, default to 1
+    page = request.args.get('page', 1, type=int)
+    per_page = 50  # Number of Pokémon to display per page
+
+    # Query the total number of Pokémon
+    total_pokemon = Pokemon.query.count()
+
+    # Calculate the total number of pages
+    total_pages = (total_pokemon + per_page - 1) // per_page  # Ceiling division
+
+    # Ensure the page number is within valid range
+    if page < 1:
+        page = 1
+    elif page > total_pages:
+        page = total_pages
+
+    # Fetch the Pokémon for the current page
+    pokemon_list = (
+        Pokemon.query
+        .order_by(Pokemon.elo_rating.desc())
+        .limit(per_page)
+        .offset((page - 1) * per_page)
+        .all()
+    )
+
+    # Pass pagination info to the template
+    return render_template(
+        'leaderboard.html',
+        pokemon_list=pokemon_list,
+        page=page,
+        total_pages=total_pages,
+        per_page=per_page
+    )
 
 if __name__ == '__main__':
     with app.app_context():
