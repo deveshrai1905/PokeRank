@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from models import Pokemon, Match
-from utils import update_elo_rating
 import random
+from utils import update_elo_rating
+from extensions import db  # Import db from extensions
 
 app = Flask(__name__)
 
@@ -10,7 +9,10 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pokemon.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+db.init_app(app)  # Initialize db with app
+
+# Import models after db is initialized
+from models import Pokemon, Match
 
 @app.route('/')
 def index():
@@ -53,5 +55,6 @@ def leaderboard():
     return render_template('leaderboard.html', pokemon_list=pokemon_list)
 
 if __name__ == '__main__':
-    db.create_all()
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)

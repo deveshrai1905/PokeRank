@@ -44,3 +44,16 @@ button {
 button:hover {
     background-color: #f4a261;
 }
+
+h1 {
+    color: black;
+    font-size: clamp(24px, 5vw, 48px);
+}
+
+@supports (-webkit-text-stroke: 3px black) {
+    h1 {
+        -webkit-text-fill-color: #ffcb05; 
+        -webkit-text-stroke: 3px black; 
+        font-size: clamp(24px, 5vw, 48px);
+    }
+}

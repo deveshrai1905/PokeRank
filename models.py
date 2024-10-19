@@ -1,4 +1,4 @@
-from app import db
+from extensions import db  # Import db from extensions
 from datetime import datetime
 
 class Pokemon(db.Model):
