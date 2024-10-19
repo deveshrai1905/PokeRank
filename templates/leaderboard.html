@@ -32,8 +32,8 @@
 <!-- Pagination Controls -->
 <div class="pagination">
     {% if page > 1 %}
-    <a href="{{ url_for('leaderboard', page=1) }}">&laquo; First</a>
-    <a href="{{ url_for('leaderboard', page=page - 1) }}">&lt; Prev</a>
+    <a href="{{ url_for('leaderboard', page=1, generation=selected_generation) }}">&laquo; First</a>
+    <a href="{{ url_for('leaderboard', page=page - 1, generation=selected_generation) }}">&lt; Prev</a>
     {% endif %}
 
     {% for p in page_numbers %}
@@ -42,13 +42,13 @@
         {% elif p == page %}
             <span class="current">{{ p }}</span>
         {% else %}
-            <a href="{{ url_for('leaderboard', page=p) }}">{{ p }}</a>
+            <a href="{{ url_for('leaderboard', page=p, generation=selected_generation) }}">{{ p }}</a>
         {% endif %}
     {% endfor %}
 
     {% if page < total_pages %}
-    <a href="{{ url_for('leaderboard', page=page + 1) }}">Next &gt;</a>
-    <a href="{{ url_for('leaderboard', page=total_pages) }}">Last &raquo;</a>
+    <a href="{{ url_for('leaderboard', page=page + 1, generation=selected_generation) }}">Next &gt;</a>
+    <a href="{{ url_for('leaderboard', page=total_pages, generation=selected_generation) }}">Last &raquo;</a>
     {% endif %}
 </div>
 {% endblock %}
