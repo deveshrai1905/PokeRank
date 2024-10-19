@@ -129,3 +129,14 @@ ol li img {
     bottom: 0;       /* Align to the bottom of the viewport */
     margin: 20px;    /* Add some margin for aesthetics */
 }
+
+form label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+form select {
+    padding: 5px;
+    font-size: 16px;
+    margin-bottom: 15px;
+}

@@ -1,16 +1,28 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+<!-- Generation Selection Form -->
+<form method="get" action="{{ url_for('index') }}">
+    <label for="generation-select">Select Generation:</label>
+    <select name="generation" id="generation-select" onchange="this.form.submit()">
+        <option value="">All Generations</option>
+        {% for gen in available_generations %}
+            <option value="{{ gen }}" {% if gen == selected_generation %}selected{% endif %}>Generation {{ gen }}</option>
+        {% endfor %}
+    </select>
+</form>
+
+
 <h2>Which Pokémon do you prefer?</h2>
 <div class="pokemon-choice">
     <div class="pokemon">
-        <img src="{{ pokemon1.image_url }}" alt="{{ pokemon1.name }}">
+        <img src="{{ url_for('static', filename='sprites/' + pokemon1.sprite_filename) }}" alt="{{ pokemon1.name }}">
         <h3>{{ pokemon1.name }}</h3>
         <button onclick="choose({{ pokemon1.id }}, {{ pokemon2.id }})">Choose {{ pokemon1.name }}</button>
     </div>
     <div class="vs">VS</div>
     <div class="pokemon">
-        <img src="{{ pokemon2.image_url }}" alt="{{ pokemon2.name }}">
+        <img src="{{ url_for('static', filename='sprites/' + pokemon2.sprite_filename) }}" alt="{{ pokemon2.name }}">
         <h3>{{ pokemon2.name }}</h3>
         <button onclick="choose({{ pokemon2.id }}, {{ pokemon1.id }})">Choose {{ pokemon2.name }}</button>
     </div>
