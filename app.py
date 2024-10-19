@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import random
 from utils import update_elo_rating
-from flask_migrate import Migrate
+# from flask_migrate import Migrate
 from extensions import db  # Import db from extensions
 
 app = Flask(__name__)
