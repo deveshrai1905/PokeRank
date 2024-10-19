@@ -2,6 +2,7 @@
 
 {% block content %}
 <h2>Pokémon Leaderboard</h2>
+<p>Total Votes Cast: {{ "{:,}".format(total_votes) }}</p>
 <ol start="{{ (page - 1) * per_page + 1 }}">
     {% for pokemon in pokemon_list %}
     <li>
