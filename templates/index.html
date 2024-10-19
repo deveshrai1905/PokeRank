@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h2>Which Pokémon do you prefer?</h2>
+<div class="pokemon-choice">
+    <div class="pokemon">
+        <img src="{{ pokemon1.image_url }}" alt="{{ pokemon1.name }}">
+        <h3>{{ pokemon1.name }}</h3>
+        <button onclick="choose({{ pokemon1.id }}, {{ pokemon2.id }})">Choose {{ pokemon1.name }}</button>
+    </div>
+    <div class="vs">VS</div>
+    <div class="pokemon">
+        <img src="{{ pokemon2.image_url }}" alt="{{ pokemon2.name }}">
+        <h3>{{ pokemon2.name }}</h3>
+        <button onclick="choose({{ pokemon2.id }}, {{ pokemon1.id }})">Choose {{ pokemon2.name }}</button>
+    </div>
+</div>
+
+<script>
+    function choose(winnerId, loserId) {
+        fetch('/choose', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ winner_id: winnerId, loser_id: loserId }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                location.reload();
+            } else {
+                alert('An error occurred.');
+            }
+        });
+    }
+</script>
+{% endblock %}
