@@ -28,6 +28,11 @@
     </div>
 </div>
 
+<!-- Skip Button -->
+<form method="post" action="{{ url_for('skip') }}">
+    <button type="submit" class="skip-button">Skip</button>
+</form>
+
 <script>
     function choose(winnerId, loserId) {
         fetch('/choose', {
