@@ -13,14 +13,13 @@
         <img src="static/images/pokeball.png" alt="Pokeball" class="pokeball2">
         <nav>
             <a href="{{ url_for('index') }}">Home</a> |
-            <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+            <a href="{{ url_for('leaderboard') }}">Leaderboard</a> |
+            <a href="{{ url_for('about') }}">About</a>
         </nav>
     </header>
-    <main>
-        {% block content %}{% endblock %}
-        <div class="citations">
-            Big thanks to <a href="https://github.com/PokeAPI/pokeapi">PokeAPI</a> for the sprites!
-        </div>
-    </main>
 </body>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
 </html>

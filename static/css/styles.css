@@ -136,6 +136,7 @@ ol li img {
     left: 0;         /* Align to the left side of the viewport */
     bottom: 0;       /* Align to the bottom of the viewport */
     margin: 20px;    /* Add some margin for aesthetics */
+    text-align: left;
 }
 
 form label {
@@ -186,4 +187,8 @@ form select {
 
 .skip-button:hover {
     background-color: #e0a800;
+}
+
+h2 {
+    color: #2a75bb;
 }

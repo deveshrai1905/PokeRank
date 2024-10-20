@@ -77,20 +77,38 @@ def skip():
     return redirect(url_for('index', generation=selected_generation))
 
 def get_page_numbers(current_page, total_pages):
+    pages = []
     if total_pages <= 10:
-        return list(range(1, total_pages + 1))
+        # If there are 10 or fewer pages, display all page numbers
+        pages = list(range(1, total_pages + 1))
     else:
-        pages = []
-        if current_page > 4:
-            pages.extend([1, 2, '...'])
-        else:
-            pages.extend(range(1, current_page))
-        pages.extend(range(max(1, current_page - 2), min(total_pages + 1, current_page + 3)))
-        if current_page < total_pages - 3:
-            pages.extend(['...', total_pages - 1, total_pages])
-        else:
-            pages.extend(range(current_page + 1, total_pages + 1))
-        return pages
+        # Always include the first two pages
+        pages.extend([1, 2])
+
+        # Add an ellipsis if the current page is beyond page 5
+        if current_page > 5:
+            pages.append('...')
+
+        # Determine the range of central pages around the current page
+        start = max(3, current_page - 1)
+        end = min(total_pages - 2, current_page + 1)
+        pages.extend(range(start, end + 1))
+
+        # Add an ellipsis if the current page is at least 4 pages away from the end
+        if current_page < total_pages - 4:
+            pages.append('...')
+
+        # Always include the last two pages
+        pages.extend([total_pages - 1, total_pages])
+
+    # Remove any duplicate page numbers while preserving order
+    seen = set()
+    unique_pages = []
+    for p in pages:
+        if p not in seen:
+            unique_pages.append(p)
+            seen.add(p)
+    return unique_pages
 
 @app.route('/leaderboard')
 def leaderboard():
@@ -110,7 +128,7 @@ def leaderboard():
 
     if search_query:
         # Find the Pokémon by name (case-insensitive)
-        found_pokemon = query.filter(Pokemon.name.ilike(f'{search_query}')).first()
+        found_pokemon = query.filter(Pokemon.name.ilike(f'{search_query}%')).first()
 
         if found_pokemon:
             # Build the same ordering as in the leaderboard
@@ -136,7 +154,7 @@ def leaderboard():
                 found_pokemon_id = found_pokemon.id
 
                 # Redirect to the leaderboard without the 'search' parameter
-                flash(f'Redirected to page with {search_query.upper()}. Highlighted in green.', 'success')
+                flash(f'Redirected to page with {search_query.upper()}. Highlighted in yellow.', 'success')
                 return redirect(url_for('leaderboard', page=page, generation=selected_generation, found_pokemon_id=found_pokemon_id))
         else:
             # Pokémon not found
@@ -181,6 +199,10 @@ def leaderboard():
         found_pokemon_id=found_pokemon_id,
         page_numbers=page_numbers
     )
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 if __name__ == '__main__':
     with app.app_context():
