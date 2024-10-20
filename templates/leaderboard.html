@@ -11,18 +11,34 @@
             <option value="{{ gen }}" {% if gen == selected_generation %}selected{% endif %}>Generation {{ gen }}</option>
         {% endfor %}
     </select>
+</form>
 
-    <!-- Include the search query if present -->
-    {% if search_query %}
-        <input type="hidden" name="search" value="{{ search_query }}">
+<!-- Search Form -->
+<form method="get" action="{{ url_for('leaderboard') }}">
+    <label for="search-input">Search Pokémon:</label>
+    <input type="text" name="search" id="search-input" value="">
+    <button type="submit">Search</button>
+    <!-- Include generation selection if present -->
+    {% if selected_generation %}
+        <input type="hidden" name="generation" value="{{ selected_generation }}">
     {% endif %}
 </form>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+  <div class="flashed-messages">
+  {% for category, message in messages %}
+    <div class="flash-message-{{ category }}">{{ message }}</div>
+  {% endfor %}
+  </div>
+{% endif %}
+{% endwith %}
 
 <h2>Pokémon Leaderboard</h2>
 <p>Total Votes Cast: {{ "{:,}".format(total_votes) }}</p>
 <ol start="{{ (page - 1) * per_page + 1 }}">
     {% for pokemon in pokemon_list %}
-    <li>
+    <li id="pokemon-{{ pokemon.id }}" {% if pokemon.id == found_pokemon_id %}class="highlighted"{% endif %}>
         <img src="{{ url_for('static', filename='sprites/' + pokemon.sprite_filename) }}" alt="{{ pokemon.name }}" class="leaderboard-sprite">
         {{ pokemon.name }} - Rating: {{ "%.2f"|format(pokemon.elo_rating) }}
     </li>
@@ -51,4 +67,18 @@
     <a href="{{ url_for('leaderboard', page=total_pages, generation=selected_generation) }}">Last &raquo;</a>
     {% endif %}
 </div>
+
+{% if found_pokemon_id %}
+<script>
+    // Scroll to the highlighted Pokémon
+    document.getElementById('pokemon-{{ found_pokemon_id }}').scrollIntoView({behavior: "smooth", block: "center"});
+</script>
+{% endif %}
+
+<style>
+.highlighted {
+    background-color: #ffcb05;
+}
+</style>
+
 {% endblock %}
