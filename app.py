@@ -4,12 +4,17 @@ from utils import update_elo_rating
 from sqlalchemy import func, desc, over
 # from flask_migrate import Migrate
 from extensions import db  # Import db from extensions
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = 'great_key_no?'
 
-# Configure the database URI
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pokemon.db'
+# Configure the database URI for PostgreSQL
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)  # Initialize db with app
@@ -22,7 +27,6 @@ available_generations = [1,2,3,4,5,6,7,8,9]
 
 @app.route('/')
 def index(generation=None):
-
 
     selected_generation = request.args.get('generation', type=int)
     if selected_generation:
