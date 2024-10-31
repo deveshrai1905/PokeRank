@@ -1,6 +1,6 @@
 from app import app
 from extensions import db
-from models import Pokemon, Type
+from models import Pokemon
 import requests
 import os
 
@@ -35,18 +35,6 @@ def populate_pokemon():
             generation_url = species_data['generation']['url']
             generation_number = int(generation_url.strip('/').split('/')[-1])
 
-
-            # Add types to the database if they don't exist
-            type_objects = []
-            for type_name in types:
-                type_obj = existing_types.get(type_name)
-                if not type_obj:
-                    type_obj = Type(name=type_name)
-                    db.session.add(type_obj)
-                    db.session.flush()
-                    existing_types[type_name] = type_obj
-                type_objects.append(type_obj)
-
             # Download sprite and store it locally
             if image_url:
                 sprite_response = requests.get(image_url)
@@ -64,7 +52,6 @@ def populate_pokemon():
             pokemon = Pokemon(
                 name=name,
                 generation=generation_number,
-                # image_url=image_url,
                 sprite_filename=sprite_filename
             )
             pokemon.types.extend(type_objects)
